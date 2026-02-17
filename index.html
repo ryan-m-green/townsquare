@@ -1634,6 +1634,11 @@ body {
     transform-origin: top left;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
     will-change: transform, opacity;
+    overflow: hidden;
+    background-image: url("data:image/svg+xml,<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><rect x='4' y='10' width='16' height='12' fill='rgba(255,255,255,0.12)' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><rect x='6' y='13' width='4' height='5' fill='rgba(230,126,80,0.25)'/><rect x='14' y='13' width='4' height='5' fill='rgba(230,126,80,0.25)'/><rect x='10' y='18' width='4' height='4' fill='rgba(230,126,80,0.25)'/><path d='M 2 10 L 4 8 L 20 8 L 22 10 Z' fill='rgba(255,255,255,0.12)'/><line x1='4' y1='8' x2='4' y2='10' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><line x1='8' y1='8' x2='8' y2='10' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><line x1='12' y1='8' x2='12' y2='10' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><line x1='16' y1='8' x2='16' y2='10' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><line x1='20' y1='8' x2='20' y2='10' stroke='rgba(255,255,255,0.12)' stroke-width='0.5'/><path d='M 1 8 L 12 2 L 23 8 Z' fill='rgba(255,255,255,0.12)'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 200px 200px;
+    background-position: bottom -30px right -30px;
 }
 
 .info-modal-overlay.open.active .info-modal {
@@ -1905,8 +1910,8 @@ body {
 </head>
 <body>
     <!-- Info Modal -->
-    <div class="info-modal-overlay" id="info-modal-overlay" onclick="closeInfoModal()">
-        <div class="info-modal" onclick="event.stopPropagation()">
+    <div class="info-modal-overlay open active" id="info-modal-overlay" onclick="closeInfoModal()">
+        <div class="info-modal" onclick="event.stopPropagation()" style="transform: scale(1); opacity: 1;">
             <button class="info-modal-close" onclick="closeInfoModal()">&#x2715;</button>
             <p><strong>Local businesses are the backbone of every neighborhood</strong>, yet they remain the hardest to find, the least supported, and the first to disappear.</p>
             <p>Town Square is changing that. By combining hyperlocal discovery, real community voices, and direct connections between residents and the businesses they live alongside, we're building something that has never existed before: a digital town square where neighborhoods actually come alive.</p>
@@ -5215,17 +5220,6 @@ function showNotification(message) {
 
 // Simulate image upload functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Open info modal on page load
-    const overlay = document.getElementById('info-modal-overlay');
-    const modal = overlay.querySelector('.info-modal');
-    modal.style.transformOrigin = '50% 10%';
-    overlay.classList.add('open');
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            overlay.classList.add('active');
-        });
-    });
-
     // Handle background image upload
     const bgUploadBtn = document.querySelector('.background-image-upload .btn-secondary');
     if (bgUploadBtn) {
