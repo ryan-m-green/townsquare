@@ -1563,54 +1563,115 @@ body {
 }
 
 /* Screen Navigator (for demo purposes) */
-.screen-nav {
-    position: fixed;
-    top: 123px;
-    left: 10px;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    border-radius: 8px;
-    font-size: 16px;
-    z-index: 1000;
-    max-width: 280px;
-    overflow: hidden;
+/* Info Icon Button */
+.info-icon-btn {
+    background: #E67E50;
+    border: none;
     cursor: pointer;
-    user-select: none;
-}
-
-.screen-nav-toggle {
-    display: flex;
+    color: white;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.4px;
-    gap: 10px;
+    justify-content: center;
+    margin-left: 6px;
+    vertical-align: middle;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 1px 4px rgba(230, 126, 80, 0.45);
 }
 
-.screen-nav-arrow {
-    font-size: 10px;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
+.info-icon-btn:hover {
+    background: #cf6a3c;
+    transform: scale(1.15);
 }
 
-.screen-nav.expanded .screen-nav-arrow {
-    transform: rotate(180deg);
+.info-icon-btn--white {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-.screen-nav-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s ease;
-    padding: 0 14px;
-    font-size: 13px;
-    line-height: 1.6;
+.info-icon-btn--white:hover {
+    background: rgba(255, 255, 255, 0.45);
 }
 
-.screen-nav.expanded .screen-nav-content {
-    max-height: 500px;
-    padding: 0 14px 12px;
+/* Info Modal */
+.info-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: background 0.3s ease;
+}
+
+.info-modal-overlay.open {
+    display: flex;
+    background: rgba(0, 0, 0, 0);
+}
+
+.info-modal-overlay.open.active {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.info-modal {
+    background: #1a1f2e;
+    border-radius: 12px;
+    padding: 28px 24px 24px;
+    max-width: 340px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transform: scale(0);
+    opacity: 0;
+    transform-origin: top left;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+    will-change: transform, opacity;
+}
+
+.info-modal-overlay.open.active .info-modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.info-modal p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #b0bec5;
+    margin-bottom: 12px;
+}
+
+.info-modal p strong {
+    color: #e8edf2;
+}
+
+.info-modal p:last-child {
+    margin-bottom: 0;
+}
+
+.info-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #546e7a;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.info-modal-close:hover {
+    color: #b0bec5;
 }
 
 /* Feature Voting Styles - Mobile Optimized */
@@ -1843,22 +1904,13 @@ body {
 </style>
 </head>
 <body>
-    <div class="screen-nav" id="screen-nav" onclick="toggleScreenNav()">
-        <div class="screen-nav-toggle">
-            <span>About Town Square</span>
-            <span class="screen-nav-arrow">▼</span>
-        </div>
-        <div class="screen-nav-content">
-            <strong>Local businesses are the backbone of every neighborhood</strong>,
-            yet they remain the hardest to find, the least supported, and the first to disappear.
-            <br /><br />
-            Town Square is changing that. By combining hyperlocal discovery, real community voices,
-            and direct connections between residents and the businesses they live alongside,
-            we're building something that has never existed before: a digital town square
-            where neighborhoods actually come alive.
-            <br /><br />
-            This prototype is the first look at that vision,
-            and we're looking for partners ready to help us bring it to every community that deserves it.
+    <!-- Info Modal -->
+    <div class="info-modal-overlay" id="info-modal-overlay" onclick="closeInfoModal()">
+        <div class="info-modal" onclick="event.stopPropagation()">
+            <button class="info-modal-close" onclick="closeInfoModal()">&#x2715;</button>
+            <p><strong>Local businesses are the backbone of every neighborhood</strong>, yet they remain the hardest to find, the least supported, and the first to disappear.</p>
+            <p>Town Square is changing that. By combining hyperlocal discovery, real community voices, and direct connections between residents and the businesses they live alongside, we're building something that has never existed before: a digital town square where neighborhoods actually come alive.</p>
+            <p>This prototype is the first look at that vision, and we're looking for partners ready to help us bring it to every community that deserves it.</p>
         </div>
     </div>
 
@@ -1889,7 +1941,7 @@ body {
 <path d="M 1 8 L 12 2 L 23 8 Z" fill="white"/>
 </svg>
                     </div>
-                    <div class="logo-text">Town Square</div>
+                    <div class="logo-text">Town Square<button class="info-icon-btn" onclick="event.stopPropagation(); openInfoModal(this)" title="About Town Square">&#x24D8;</button></div>
                 </div>
                 <div class="header-actions">
                     <button class="icon-btn" onclick="showScreen('member-login')" title="Member Login">👤</button>
@@ -2026,7 +2078,7 @@ body {
 <path d="M 1 8 L 12 2 L 23 8 Z" fill="white"/>
 </svg>
                     </div>
-                    <div class="logo-text">Town Square</div>
+                    <div class="logo-text">Town Square<button class="info-icon-btn" onclick="event.stopPropagation(); openInfoModal(this)" title="About Town Square">&#x24D8;</button></div>
                 </div>
             </div>
             
@@ -2549,7 +2601,7 @@ body {
 <!-- Roof -->
 <path d="M 1 8 L 12 2 L 23 8 Z" fill="white"/>
 </svg></div>
-                    <div class="logo-text">Town Square</div>
+                    <div class="logo-text">Town Square<button class="info-icon-btn" onclick="event.stopPropagation(); openInfoModal(this)" title="About Town Square">&#x24D8;</button></div>
                 </div>
             </div>
             
@@ -2646,7 +2698,7 @@ body {
 <!-- Roof -->
 <path d="M 1 8 L 12 2 L 23 8 Z" fill="white"/>
 </svg></div>
-                    <div class="logo-text">Town Square</div>
+                    <div class="logo-text">Town Square<button class="info-icon-btn" onclick="event.stopPropagation(); openInfoModal(this)" title="About Town Square">&#x24D8;</button></div>
                 </div>
             </div>
             
@@ -3127,7 +3179,7 @@ body {
 <path d="M 1 8 L 12 2 L 23 8 Z" fill="white"/>
 </svg>
                         </div>
-                        <div class="logo-text" style="color: white;">Town Square</div>
+                        <div class="logo-text" style="color: white;">Town Square<button class="info-icon-btn info-icon-btn--white" onclick="event.stopPropagation(); openInfoModal(this)" title="About Town Square">&#x24D8;</button></div>
                     </div>
                 </div>
                 <div style="margin-top: 20px;">
@@ -5018,9 +5070,48 @@ body {
 
 
 <script>
-function toggleScreenNav() {
-    const nav = document.getElementById('screen-nav');
-    nav.classList.toggle('expanded');
+function openInfoModal(btn) {
+    const overlay = document.getElementById('info-modal-overlay');
+    const modal = overlay.querySelector('.info-modal');
+
+    // Calculate where the button is on screen so the modal grows from that point
+    const rect = btn.getBoundingClientRect();
+    const btnCenterX = rect.left + rect.width / 2;
+    const btnCenterY = rect.top + rect.height / 2;
+
+    // Express that point as a percentage of the modal's eventual position
+    // The modal is centered by flexbox — we need to work out where the button
+    // is relative to where the modal will land
+    const viewportW = window.innerWidth;
+    const viewportH = window.innerHeight;
+    const modalW = Math.min(340, viewportW - 40);
+    const modalH = 260; // approximate
+
+    const modalLeft = (viewportW - modalW) / 2;
+    const modalTop  = (viewportH - modalH) / 2;
+
+    const originX = Math.max(0, Math.min(100, ((btnCenterX - modalLeft) / modalW) * 100));
+    const originY = Math.max(0, Math.min(100, ((btnCenterY - modalTop)  / modalH) * 100));
+
+    modal.style.transformOrigin = `${originX}% ${originY}%`;
+
+    // Show overlay then trigger animation on next frame
+    overlay.classList.add('open');
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+        });
+    });
+}
+
+function closeInfoModal() {
+    const overlay = document.getElementById('info-modal-overlay');
+    overlay.classList.remove('active');
+    // Wait for animation to finish before hiding
+    overlay.addEventListener('transitionend', function handler() {
+        overlay.classList.remove('open');
+        overlay.removeEventListener('transitionend', handler);
+    });
 }
 
 function showScreen(screenId) {
@@ -5124,6 +5215,17 @@ function showNotification(message) {
 
 // Simulate image upload functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Open info modal on page load
+    const overlay = document.getElementById('info-modal-overlay');
+    const modal = overlay.querySelector('.info-modal');
+    modal.style.transformOrigin = '50% 10%';
+    overlay.classList.add('open');
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+        });
+    });
+
     // Handle background image upload
     const bgUploadBtn = document.querySelector('.background-image-upload .btn-secondary');
     if (bgUploadBtn) {
